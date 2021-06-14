@@ -1,0 +1,43 @@
+kind: pipeline
+name: plugindrone/kubectl
+
+platform:
+  arch: amd64
+  
+steps:
+
+- name: docker-publish-beta
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: registry_username
+    password:
+      from_secret: registry_password
+    repo: plugindrone/kubectl
+    dockerfile: build/Dockerfile.amd64
+    tag: ${DRONE_BRANCH/release\//}-${DRONE_COMMIT}-linux-amd64
+  when:
+    ref:
+      include:
+      - "refs/heads/dev"
+    event:
+    - push
+
+- name: docker-publish
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: registry_username
+    password:
+      from_secret: registry_password
+    repo: plugindrone/kubectl
+    dockerfile: build/Dockerfile.amd64
+    tags:
+    auto_tag: true
+  when:
+    ref:
+      include:
+      - "refs/heads/master"
+      - "refs/heads/release/v*"
+    event:
+    - push
