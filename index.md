@@ -14,3 +14,15 @@ steps:
     - kubectl get nodes
     - kubectl get namepsaces
 ```
+### Testando local com Docker
+
+Você também pode realizar testes utilizando localmente com o docker:
+
+```shell
+docker run --rm \
+  -e PLUGIN_CMD="kubectl get nodes"
+  -e PLUGIN_KUBE_CONFIG="$(cat ~/.kube/config)" \
+  -v $(pwd):$(pwd) \
+  -w $(pwd) \
+  plugindrone/kubectl
+```
