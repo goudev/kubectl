@@ -2,7 +2,7 @@
 
 O plugin Kubectl Drone CI é utilizado para você executar comandos kubectl em sua step.
 ### Pipeline
-```markdown
+```yaml
 steps:
 
 - name: kubectl
