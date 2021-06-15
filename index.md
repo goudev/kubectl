@@ -22,7 +22,9 @@ Este plugin para o Drone, permite que você execute comandos kubectl em sua step
 * **settings.ignore_errors**: Parametro que quando setado para 1 ignora qualquer erro de execução do comando (não falha o build). Por padrão vem desativado (não ignora erros);
 * **settings.kube_config**: Conteúdo do arquivo kubeconfig para acesso ao cluster kubernetes; 
 * **settings.cmd**: Comando ou lista de comandos a serem executados.
+
 ## Drone Pipeline
+
 ```
 steps:
 
