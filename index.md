@@ -1,4 +1,4 @@
-# Plugin Drone kubectl
+## Plugin Drone kubectl
 
 [![Build Status](https://cloud.drone.io/api/badges/plugindrone/kubectl/status.svg)](https://cloud.drone.io/plugindrone/kubectl)
 <a href="https://github.com/plugindrone/kubectl/stargazers">
@@ -23,9 +23,10 @@ Este plugin para o Drone, permite que você execute comandos kubectl em sua step
 * **settings.kube_config**: Conteúdo do arquivo kubeconfig para acesso ao cluster kubernetes; 
 * **settings.cmd**: Comando ou lista de comandos a serem executados.
 
+
 ## Drone Pipeline
 
-```
+```yaml
 steps:
 
 - name: kubectl
