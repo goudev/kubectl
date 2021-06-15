@@ -16,9 +16,16 @@ else
     for i in `seq 1 ${TOTAL_LINHAS}`; do
         COMANDO_ATUAL=$(sed -n ${i}p /tmp/cmd)
         if [ "$PLUGIN_DEBUG" == "1" ]; then
+            echo
             echo "** Executando o comando: ($COMANDO_ATUAL)"
         fi
         ${COMANDO_ATUAL}
+        if [ "${PLUGIN_IGNORE_ERRORS}" == "1" ]; then
+            echo
+            echo "** Ignorando erros por conta do parametro ignore_errors=1"
+        else
+            exit 2;
+        fi
     done
     source /tmp/cmd
 fi
