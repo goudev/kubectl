@@ -1,4 +1,4 @@
-# Plugin Kubectl para Drone CI
+# Plugin Drone kubectl
 
 [![Build Status](https://cloud.drone.io/api/badges/plugindrone/kubectl/status.svg)](https://cloud.drone.io/plugindrone/kubectl)
 <a href="https://github.com/plugindrone/kubectl/stargazers">
@@ -17,7 +17,7 @@
 	<img src="https://img.shields.io/github/license/plugindrone/kubectl?color=2b9348" alt="License Badge"/>
 </a>
 
-Este plugin para o Drone, permite executar comandos kubectl em sua step. 
+Este plugin para o Drone, permite que você execute comandos kubectl em sua step informando seu arquivo kubeconfig. 
 
 ## Drone Pipeline
 ```yaml
@@ -42,3 +42,6 @@ docker run --rm \
   -w $(pwd) \
   plugindrone/kubectl
 ```
+
+## Gostou do conteúdo deste trabalho?
+Sinta-se livre para fazer qualquer doação para a chave **bb39260c-1bce-4cd3-9d70-b74b9dd584da** . 
