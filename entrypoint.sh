@@ -20,11 +20,13 @@ else
             echo "** Executando o comando: ($COMANDO_ATUAL)"
         fi
         ${COMANDO_ATUAL}
-        if [ "${PLUGIN_IGNORE_ERRORS}" == "1" ]; then
-            echo
-            echo "** Ignorando erros por conta do parametro ignore_errors=1"
-        else
-            exit 2;
+        if [ ! $? = 0 ]; then
+            if [ "${PLUGIN_IGNORE_ERRORS}" == "1" ]; then
+                echo
+                echo "** Ignorando erros por conta do parametro ignore_errors=1"
+            else
+                exit 2;
+            fi
         fi
     done
     source /tmp/cmd
