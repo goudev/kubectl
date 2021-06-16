@@ -29,5 +29,4 @@ else
             fi
         fi
     done
-    source /tmp/cmd
 fi
