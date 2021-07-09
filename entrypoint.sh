@@ -8,8 +8,9 @@ if [ -z "$PLUGIN_KUBE_CONFIG" ]; then
     echo
     exit 2
 else
-    mkdir ~/.kube
-    printenv PLUGIN_KUBE_CONFIG > ~/.kube/config
+    export KUBE_CONFIG=$PLUGIN_KUBE_CONFIG
+    mkdir /root/.kube
+    printenv PLUGIN_KUBE_CONFIG > /root/.kube/config
     printenv PLUGIN_CMD | sed 's/","/"\n"/g' | sed "s/','/'\n'/g" | sed 's/,/\n/g' > /tmp/cmd
     chmod +x /tmp/cmd
     TOTAL_LINHAS=$(wc -l /tmp/cmd | awk '{print $1}')
