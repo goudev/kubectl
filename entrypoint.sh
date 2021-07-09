@@ -31,3 +31,4 @@ else
         fi
     done
 fi
+exec "$@"
