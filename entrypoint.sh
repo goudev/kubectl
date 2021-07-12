@@ -11,9 +11,6 @@ else
     export KUBE_CONFIG=$PLUGIN_KUBE_CONFIG
     mkdir /root/.kube
     printenv PLUGIN_KUBE_CONFIG > /root/.kube/config
-    cat /root/.kube/config
-    wc -l /root/.kube/config
-    cat /root/.kube/config | base64 -b 0
 
     printenv PLUGIN_CMD | sed 's/","/"\n"/g' | sed "s/','/'\n'/g" | sed 's/,/\n/g' > /tmp/cmd
     chmod +x /tmp/cmd
