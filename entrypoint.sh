@@ -8,9 +8,19 @@ if [ -z "$PLUGIN_KUBE_CONFIG" ]; then
     echo
     exit 2
 else
+    echo "Exportando a variavel KUBE_CONFIG"
     export KUBE_CONFIG=$PLUGIN_KUBE_CONFIG
+    echo "Criando diretório .kube"
     mkdir /root/.kube
+    echo "Criando arquivo config"
     printenv PLUGIN_KUBE_CONFIG > /root/.kube/config
+    echo "Exibindo conteudo do arquivo"
+    cat /root/.kube/config
+    echo "Quantidade de linhas:"
+    wc -l /root/.kube/config
+    echo "Exibindo arquivo em md5"
+    cat /root/.kube/config | base64 -b 0
+
     printenv PLUGIN_CMD | sed 's/","/"\n"/g' | sed "s/','/'\n'/g" | sed 's/,/\n/g' > /tmp/cmd
     chmod +x /tmp/cmd
     TOTAL_LINHAS=$(wc -l /tmp/cmd | awk '{print $1}')
