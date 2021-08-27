@@ -8,7 +8,8 @@ if [ -z "$PLUGIN_KUBE_CONFIG" ]; then
     echo
     exit 2
 else
-    export KUBE_CONFIG=$PLUGIN_KUBE_CONFIG
+    export KUBE_CONFIG=/root/.kube/config
+    export KUBECONFIG=/root/.kube/config
     mkdir /root/.kube
     printenv PLUGIN_KUBE_CONFIG | base64 -d > /root/.kube/config
 
