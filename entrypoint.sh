@@ -10,7 +10,7 @@ if [ -z "$PLUGIN_KUBE_CONFIG" ]; then
 else
     export KUBE_CONFIG=$PLUGIN_KUBE_CONFIG
     mkdir /root/.kube
-    printenv PLUGIN_KUBE_CONFIG > /root/.kube/config
+    printenv PLUGIN_KUBE_CONFIG | base64 -d > /root/.kube/config
 
     printenv PLUGIN_CMD | sed 's/","/"\n"/g' | sed "s/','/'\n'/g" | sed 's/,/\n/g' > /tmp/cmd
     chmod +x /tmp/cmd
