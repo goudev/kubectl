@@ -1,10 +1,15 @@
 FROM alpine
-ADD ./entrypoint.sh /usr/local/bin/entrypoint
-RUN apk add --no-cache curl && \
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
-chmod +x kubectl && \
-mv kubectl /usr/local/bin/ && \
-chmod +x /usr/local/bin/kubectl && \
-apk del curl && \
-chmod +x /usr/local/bin/entrypoint
-CMD [ "/usr/local/bin/entrypoint" ] 
+ARG VERSAO
+ENV VERSAO $VERSAO
+WORKDIR /home/kubectl
+ADD scripts/kubectl /usr/local/bin/kubectl
+RUN apk add --no-cache curl; \
+    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"; \
+    chmod +x kubectl; \
+    chmod +x /usr/local/bin/kubectl; \
+    mkdir /usr/local/kube; \
+    mv kubectl /usr/local/kube/; \
+    chmod +x /usr/local/kube/kubectl; \
+    apk del curl; \
+    adduser kubectl -D -s /bin/sh -H -h /home/kubectl
+CMD [ "/usr/local/bin/kubectl","$@" ] 

@@ -1,0 +1,39 @@
+#!/bin/sh
+
+FILE_CFG_CONFIG="/home/kubectl/.kube/config"
+FILE_KUBECTL="/usr/local/kube/kubectl"
+
+if [ -f "${FILE_CFG_CONFIG}" ]; then
+    exec ${FILE_KUBECTL} $@
+else
+    if [ -z "$PLUGIN_KUBECONFIG" ]; then
+        echo "###### ERRO ######"
+        echo "O parametro settings.kube_config não foi informado. Esse parâmetro é necessário para que o kubectl consiga executar comandos no cluster kubernetes."
+        echo
+        echo "Para maiores informações consulte: https://github.com/goudev/kubectl"
+        echo
+        exit 2
+    else
+        # Define a env KUBE_CONFIG
+        export KUBECONFIG=${FILE_CFG_CONFIG}
+        
+        # Cria o diretório do arquivo
+        mkdir /home/kubectl/.kube
+
+        # Validamos se o KUBE_CONFIG foi passado em base64
+        if [ -z "$PLUGIN_KUBECONFIG_ENCODED" ]; then
+            printenv PLUGIN_KUBECONFIG | base64 -d > ${KUBECONFIG}
+            if [ ! $? = 0 ]; then
+                echo "Falha ao decodigicar o conteudo do arquivo kubeconfig."
+                echo "Você especificou o parametro settings.kube_config_encoded"
+                echo "que diz que o conteúdo do seu arquivo kube_config está em formato base64."
+                echo "Porem ao realizar o base64 decode apresentou falha."
+                echo "Verifique se você realmente especificou ele em formato base64."
+                exit 2
+            fi
+        else
+            printenv PLUGIN_KUBE_CONFIG > ${KUBECONFIG}
+        fi
+        exec ${FILE_KUBECTL} $@
+    fi
+fi

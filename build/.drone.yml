@@ -1,43 +1,84 @@
 kind: pipeline
-name: plugindrone/kubectl
+name: kubectl
 
 platform:
   arch: amd64
   
 steps:
 
-- name: docker-publish-beta
+- name: Build da Imagem Dev
   image: plugins/docker
   settings:
     username:
       from_secret: registry_username
     password:
       from_secret: registry_password
-    repo: plugindrone/kubectl
+    repo: goudev/kubectl
     dockerfile: build/Dockerfile.amd64
-    tag: ${DRONE_BRANCH/release\//}-${DRONE_COMMIT}-linux-amd64
+    tag: 
+    - ${DRONE_SEMVER}-amd64
+    - ${DRONE_SEMVER_MAJOR}-amd64
+    - ${DRONE_SEMVER_MAJOR}.${DRONE_SEMVER_MINOR}-amd64
   when:
     ref:
       include:
       - "refs/heads/dev"
     event:
-    - push
+    - tag
 
-- name: docker-publish
+- name: Build da Imagem Release
   image: plugins/docker
   settings:
     username:
       from_secret: registry_username
     password:
       from_secret: registry_password
-    repo: plugindrone/kubectl
+    repo: goudev/kubectl
     dockerfile: build/Dockerfile.amd64
-    tags:
-    auto_tag: true
+    - ${DRONE_SEMVER}-amd64
+    - ${DRONE_SEMVER_MAJOR}-amd64
+    - ${DRONE_SEMVER_MAJOR}.${DRONE_SEMVER_MINOR}-amd64
+  when:
+    ref:
+      include:
+      - "refs/heads/release"
+    event:
+    - tag
+
+- name: Build da Imagem Master
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: registry_username
+    password:
+      from_secret: registry_password
+    repo: goudev/kubectl
+    dockerfile: build/Dockerfile.amd64
+    - ${DRONE_SEMVER}-amd64
+    - ${DRONE_SEMVER_MAJOR}-amd64
+    - ${DRONE_SEMVER_MAJOR}.${DRONE_SEMVER_MINOR}-amd64
   when:
     ref:
       include:
       - "refs/heads/master"
-      - "refs/heads/release/v*"
     event:
-    - push
+    - tag
+
+# - name: semantic-release
+#   image: docker-hub.thema.inf.br/imagens/semantic-release
+#   settings:
+#     url: 'git.thema.inf.br'
+#     username:
+#       from_secret: GIT_USERNAME
+#     password:
+#       from_secret: GIT_PASSWORD
+#     branch: 'master'
+#   commands:
+#   - semantic-release --ci
+#   when:
+#     ref:
+#     - "refs/heads/dev"
+#     - "refs/heads/master"
+#     - "refs/heads/release"
+#     event:
+#     - push

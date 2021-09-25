@@ -1,0 +1,18 @@
+{  
+    "branches": [
+        '+([0-9])?(.{+([0-9]),x}).x', 
+        'master', 
+        {name: 'release', prerelease: true},
+        {name: 'dev', prerelease: true}
+    ],
+    "npmPublish": false,
+    "plugins": [
+        "@semantic-release/commit-analyzer",
+        ["@semantic-release/release-notes-generator", {"preset": "conventionalcommits"}],
+        ["@semantic-release/changelog",{"changelogFile": "docs/CHANGELOG.md"}],    
+    ],
+    "verifyConditions": ["@semantic-release/changelog", "@semantic-release/git"],
+    "prepare": ["@semantic-release/changelog", "@semantic-release/git"],
+    "message": "doc: registro de novidades release ${nextRelease.version} [CI SKIP]"
+
+}
